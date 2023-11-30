@@ -1,0 +1,190 @@
+!-------------------------------------------------------------------------------
+! "DEM2xyz v.3.0" (DEM manager tool)
+! Copyright 2016-2022 (RSE SpA)
+! "DEM2xyz v.3.0" authors and email contact are provided on the documentation 
+! file.
+! This file is part of DEM2xyz v.3.0 .
+! DEM2xyz v.3.0 is free software: you can redistribute it and/or modify
+! it under the terms of the GNU General Public License as published by
+! the Free Software Foundation, either version 3 of the License, or
+! (at your option) any later version.
+! DEM2xyz is distributed in the hope that it will be useful,
+! but WITHOUT ANY WARRANTY; without even the implied warranty of
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+! GNU General Public License for more details.
+! You should have received a copy of the GNU General Public License
+! along with DEM2xyz. If not, see <http://www.gnu.org/licenses/>.
+!-------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------
+! Description: DEM2xyz main input file template. This template file can be 
+!              filled in to complete the input file "*.inp" for any test case. 
+!              Remove all the commented lines and blank lines before the 
+!              execution.
+!-------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------
+! Legend:
+!    !    beginning of a comment line
+!    ![?] beginning of a definition/guideline
+!    <>   the content within these brackets represents an input variable
+!    ![*] beginning of the structure of a line with the names of the input 
+!         variables
+!    ...  possible repetitions of the above/previous data
+!    !<<< beginning of a section to be filled with input data
+!    ___  space to be replaced with an input value
+!    !>>> end of a section to be filled with input data
+!    =    start of a variable value
+!-------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------
+![?] <input_grid_file_name>. DEM2xyz only accepts input ArcInfo ASCII Grid 
+!    (".asc") files with isotropic and uniform spatial resolution. DEM2xyz does 
+!    not support the ".asc" standard for "xllcenter" and "yllcenter": please 
+!    use "xllcorner" and "yllcorner".
+!-------------------------------------------------------------------------------
+![*] <input_grid_file_name>
+!-------------------------------------------------------------------------------
+!<<<****************************************************************************
+___
+!>>>****************************************************************************
+!-------------------------------------------------------------------------------
+![?] <res_fact>: resolution factor (ratio between the output and the input 
+!    spatial resolution)
+![?] <abs_mean_latitude>: absolute value of the latitude of the DEM barycentre.
+!    Provide a negative value in case of cartographic coordinates (X,Y).
+![?] <n_digging_regions>: number of digging/filling regions
+![?] <n_bathymetries>: number of bathymetries which are computed
+!-------------------------------------------------------------------------------
+![*] <res_fact> <abs_mean_latitude> <n_digging_regions> <n_bathymetries>
+!-------------------------------------------------------------------------------
+!<<<****************************************************************************
+___ ___ ___ ___
+!>>>****************************************************************************
+!-------------------------------------------------------------------------------
+![?] (<x_inp_cut_min>;<y_inp_cut_min>): lower-left input point (defined in the 
+!    input reference system) to cut the output DEM. The cut procedure only 
+!    influences the output writing. These values depend on the specific input 
+!    file.
+![?] (<x_inp_cut_max>;<y_inp_cut_max>): upper-right input point (defined in the 
+!    input reference system) to cut the output DEM. These values depend on the 
+!    specific input file.
+!-------------------------------------------------------------------------------
+![*] <x_inp_cut_min> <y_inp_cut_min> 
+![*] <x_inp_cut_max> <y_inp_cut_max>
+!-------------------------------------------------------------------------------
+!<<<****************************************************************************
+___ ___
+___ ___
+!>>>****************************************************************************
+!-------------------------------------------------------------------------------
+![?] (<x_trans_out>;<y_trans_out>): translation vector added to the output grid 
+!    point positions so that the origin of the reference system in output is 
+!    chosen by the user. <x_trans_out>=0 means that the origin is x_ll 
+!    (x_lower_left) of the DEM or DTM (x_ll=x_ll_centre-0.5*dx).
+!    x_trans_out = x_ll – min(x_inp_cut_min)
+!    y_trans_out = y_ll – min(y_inp_cut_min)
+!-------------------------------------------------------------------------------
+![*] <x_trans_out> <y_trans_out>
+!-------------------------------------------------------------------------------
+!<<<****************************************************************************
+___ ___
+!>>>****************************************************************************
+!-------------------------------------------------------------------------------
+![?] <z_digging_regions(i)>: height of the i-th digging/filling region
+![?] <n_digging_vertices(i)>: number of vertices of the polygon representing the 
+!    i-th digging/filling region (3-6)
+![?] <digging_vertices(i,j,k)>: output k-th coordinate (X or Y in -m-) of the 
+!    j-th vertex of the i-th digging/filling region
+!-------------------------------------------------------------------------------
+![*] <z_digging_regions(1)> <n_digging_vertices(1)>
+![*] <digging_vertices(1,1,1)> <digging_vertices(1,1,2)>
+![*] ...
+![*] <digging_vertices(1,n_digging_vertices(1),1)> 
+!    <digging_vertices(1,n_digging_vertices(1),2)>
+![*] ...
+![*] <z_digging_regions(n_digging_regions)> 
+!    <n_digging_vertices(n_digging_regions)>
+![*] <digging_vertices(n_digging_regions,1,1)> 
+!    <digging_vertices(n_digging_regions,1,2)>
+![*] ...
+![*] <digging_vertices(n_digging_regions,n_digging_vertices(n_digging_reg.),1)>
+!    <digging_vertices(n_digging_regions,n_digging_vertices(n_digging_reg.),2)>
+!-------------------------------------------------------------------------------
+!<<<****************************************************************************
+___ ___
+___ ___
+...
+___ ___
+...
+___ ___
+___ ___
+...
+___ ___
+!>>>****************************************************************************
+!-------------------------------------------------------------------------------
+![?] <pos_res_downstream(i,j)>: j-th coordinate (X or Y in -m-) of the most 
+!    downstream point of the i-th bathymetry/reservoir.
+![?] <z_downstream(i)>: height of the most downstream point of the reservoir for 
+!    the i-th bathymetry
+![?] <pos_res_upstream(i,j)>: j-th coordinate (X or Y in -m-) of the most 
+!    upstream point of the i-th bathymetry/reservoir
+![?] <z_FS(i)>: free surface height for the reservoir of the i-th bathymetry
+![?] <z_eps(i)>: accuracy/tolerance on z_downstream(i) and z_FS(i)
+![?] <volume_flag(i)>: logical flag to provide (or not) the volume reservoir as 
+!    an input parameter (for the i-th bathymetry/reservoir)
+![?] <weight_type(i)>: type of weight for the bathymetry correction (1: 
+!    reservoir shape, 2: volcanic lake shape)
+![?] <n_vertices_around_res(i)>: number of vertices pf the positioning polygon 
+!    circumscribing the horizontal projection of the i-th reservoir / 
+!    bathymetry
+![?] <vertices_around_res(i,j,k)>: k-th coordinate (X or Y in -m-) of the j-th 
+!    vertex of the positioning polygon for the i-th bathymetry/reservoir
+![?] <reservoir_volume_est(i)>: volume reservoir (for the i-th bathymetry / 
+!    reservoir)
+!-------------------------------------------------------------------------------
+![*] <pos_res_downstream(1,1)> <pos_res_downstream(1,2)> <z_downstream(1)> 
+!    <pos_res_upstream(1,1)> <pos_res_upstream(1,2)> <z_FS(1)> <z_eps(1)> 
+!    <volume_flag(1)> <weight_type(1)> <n_vertices_around_res(1)>
+![*] <vertices_around_res(1,1,1)> <vertices_around_res(1,1,2)>
+![*] ...
+![*] <vertices_around_res(1,n_vertices_around_res(1),1)> 
+!    <vertices_around_res(1,n_vertices_around_res(1),2)>
+!-------------------------------------------------------------------------------
+![?] if (volume_flag(1).eqv..true.) then
+!-------------------------------------------------------------------------------
+![*] <reservoir_volume_est(1)>
+!-------------------------------------------------------------------------------
+![?] endif
+!-------------------------------------------------------------------------------
+![*] ...
+![*] <pos_res_downstream(n_bathymetries,1)> <pos_res_downstream(n_bathymetr.,2)>
+!    <z_downstream(n_bathymetries)> <pos_res_upstream(n_bathymetries,1)> 
+!    <pos_res_upstream(n_bathymetries,2)> <z_FS(n_bathymetries)> 
+!    <z_eps(n_bathymetries)> <volume_flag(n_bathymetries)> 
+!    <weight_type(n_bathymetries)> <n_vertices_around_res(n_bathymetries)>
+![*] <vertices_around_res(n_bathymetries,1,1)> 
+!    <vertices_around_res(n_bathymetries,1,2)>
+![*] ...
+![*] <vertices_around_res(n_bathymetries,n_vertices_around_res(n_bathymetr.),1)>
+!    <vertices_around_res(n_bathymetries,n_vertices_around_res(n_bathymetr.),2)>
+!-------------------------------------------------------------------------------
+![?] if (volume_flag(1).eqv..true.) then
+!-------------------------------------------------------------------------------
+![*] <reservoir_volume_est(n_bathymetries)>
+!-------------------------------------------------------------------------------
+![?] endif
+!-------------------------------------------------------------------------------
+!<<<****************************************************************************
+___ ___ ___ ___ ___ ___ ___ ___ ___ ___
+___ ___
+...
+___ ___
+___
+___ ___ ___ ___ ___ ___ ___ ___ ___ ___
+___ ___
+...
+___ ___
+___
+!>>>****************************************************************************
+!-------------------------------------------------------------------------------
